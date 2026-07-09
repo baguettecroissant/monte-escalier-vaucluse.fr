@@ -1,0 +1,385 @@
+---
+import communes from '../data/communes.json';
+
+// Group name and zip mappings for client-side resolution
+const zipToCityMap = communes.reduce((acc, c) => {
+  acc[c.codePostal] = c.nom;
+  return acc;
+}, {} as Record<string, string>);
+---
+<div class="form-card" id="quote-form-container">
+  <div class="steps-indicator">
+    <div class="step-dot active" data-step="1">1</div>
+    <div class="step-dot" data-step="2">2</div>
+    <div class="step-dot" data-step="3">3</div>
+    <div class="step-dot" data-step="4">4</div>
+    <div class="step-dot" data-step="5">5</div>
+  </div>
+
+  <form id="quote-steps-form" action="/api/lead" method="POST">
+    <!-- Step 1: Configuration -->
+    <div class="form-step-section active" data-step="1">
+      <h2>Type d'escalier à équiper</h2>
+      <p class="subtitle">Sélectionnez la configuration de votre habitation</p>
+      
+      <div class="radio-card-group">
+        <label class="radio-card selected">
+          <input type="radio" name="stair_type" value="droit" checked style="display:none;" />
+          <span class="radio-card-icon">📏</span>
+          <span class="radio-card-title">Escalier Droit</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Sans virage ni palier intermédiaire</span>
+        </label>
+        
+        <label class="radio-card">
+          <input type="radio" name="stair_type" value="tournant" style="display:none;" />
+          <span class="radio-card-icon">🔄</span>
+          <span class="radio-card-title">Escalier Tournant</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Avec virage(s), palier ou en colimaçon</span>
+        </label>
+
+        <label class="radio-card">
+          <input type="radio" name="stair_type" value="exterieur" style="display:none;" />
+          <span class="radio-card-icon">🌿</span>
+          <span class="radio-card-title">Escalier Extérieur</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Accès jardin, perron ou terrasse</span>
+        </label>
+
+        <label class="radio-card">
+          <input type="radio" name="stair_type" value="fauteuil_pmr" style="display:none;" />
+          <span class="radio-card-icon">♿</span>
+          <span class="radio-card-title">Plateforme PMR</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Fauteuil roulant / Mini-ascenseur</span>
+        </label>
+      </div>
+
+      <div style="margin-top:25px; text-align:right;">
+        <button type="button" class="btn-primary next-step-trigger">Continuer &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Timeline -->
+    <div class="form-step-section" data-step="2">
+      <h2>Délai de réalisation du projet</h2>
+      <p class="subtitle">Quand souhaitez-vous installer votre équipement ?</p>
+      
+      <div class="radio-card-group">
+        <label class="radio-card selected">
+          <input type="radio" name="timeline" value="urgent" checked style="display:none;" />
+          <span class="radio-card-icon">⚡</span>
+          <span class="radio-card-title">Urgent</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Moins d'un mois (sécurisation rapide)</span>
+        </label>
+        
+        <label class="radio-card">
+          <input type="radio" name="timeline" value="1_to_3_months" style="display:none;" />
+          <span class="radio-card-icon">📅</span>
+          <span class="radio-card-title">Sous 1 à 3 mois</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Planification à court terme</span>
+        </label>
+
+        <label class="radio-card">
+          <input type="radio" name="timeline" value="plus_3_months" style="display:none;" />
+          <span class="radio-card-icon">🔍</span>
+          <span class="radio-card-title">Plus de 3 mois</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Étude de budget et aides financières</span>
+        </label>
+
+        <label class="radio-card">
+          <input type="radio" name="timeline" value="information" style="display:none;" />
+          <span class="radio-card-icon">💡</span>
+          <span class="radio-card-title">Simple information</span>
+          <span class="radio-card-desc" style="font-size:12px; color:var(--text-muted);">Renseignements préalables</span>
+        </label>
+      </div>
+
+      <div class="form-actions-row">
+        <button type="button" class="btn-secondary prev-step-trigger">&larr; Retour</button>
+        <button type="button" class="btn-primary next-step-trigger">Continuer &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Postal Code / Localization -->
+    <div class="form-step-section" data-step="3">
+      <h2>Votre localisation en Vaucluse</h2>
+      <p class="subtitle">Afin de valider l'éligibilité aux subventions régionales 84</p>
+      
+      <div class="form-group">
+        <label for="zipcode_field">Code postal vauclusien</label>
+        <input type="text" id="zipcode_field" name="zipcode" class="form-control" placeholder="Ex: 84000" pattern="^84\d{3}$" maxlength="5" required />
+        <span class="input-tip">Doit correspondre à une commune du département de Vaucluse (débutant par 84).</span>
+        <div id="zip-error-alert" class="zip-validation-alert error" style="display:none;"></div>
+        <div id="zip-success-alert" class="zip-validation-alert success" style="display:none;"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="city_field">Ville de résidence</label>
+        <input type="text" id="city_field" name="city" class="form-control" placeholder="Saisissez votre code postal" readonly required />
+      </div>
+
+      <div class="form-actions-row">
+        <button type="button" class="btn-secondary prev-step-trigger">&larr; Retour</button>
+        <button type="button" class="btn-primary next-step-trigger" id="validate-zip-step-btn" disabled>Continuer &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Identity & Contact -->
+    <div class="form-step-section" data-step="4">
+      <h2>Vos coordonnées</h2>
+      <p class="subtitle">Ces détails permettent de personnaliser votre dossier d'aide</p>
+
+      <div class="form-group">
+        <label style="display:block; margin-bottom:8px;">Civilité</label>
+        <div style="display:flex; gap:20px;">
+          <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal; cursor:pointer;">
+            <input type="radio" name="civility" value="Mme" checked /> Mme
+          </label>
+          <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal; cursor:pointer;">
+            <input type="radio" name="civility" value="M" /> M.
+          </label>
+        </div>
+      </div>
+      
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+        <div class="form-group">
+          <label for="firstname_field">Prénom</label>
+          <input type="text" id="firstname_field" name="firstname" class="form-control" placeholder="Jean" required />
+        </div>
+        <div class="form-group">
+          <label for="lastname_field">Nom</label>
+          <input type="text" id="lastname_field" name="lastname" class="form-control" placeholder="Dupont" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email_field">Adresse e-mail</label>
+        <input type="email" id="email_field" name="email" class="form-control" placeholder="jean.dupont@orange.fr" required />
+        <span class="input-tip">Pour recevoir la confirmation de votre estimation par écrit.</span>
+      </div>
+
+      <div class="form-actions-row">
+        <button type="button" class="btn-secondary prev-step-trigger">&larr; Retour</button>
+        <button type="button" class="btn-primary next-step-trigger">Continuer &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Phone & Final Submission -->
+    <div class="form-step-section" data-step="5">
+      <h2>Validation finale</h2>
+      <p class="subtitle">Votre numéro de téléphone est obligatoire pour recevoir l'appel de calage gratuit</p>
+      
+      <div class="form-group">
+        <label for="phone_field">Numéro de téléphone</label>
+        <input type="tel" id="phone_field" name="phone" class="form-control" placeholder="Ex: 06 12 34 56 78" pattern="^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$" required />
+        <span class="input-tip">Un conseiller expert local vous appellera pour valider les dimensions de votre escalier.</span>
+        <div id="phone-error-alert" class="zip-validation-alert error" style="display:none;">Numéro de téléphone invalide. Ex: 0612345678.</div>
+      </div>
+
+      <div class="privacy-notice-box">
+        🔒 <strong>Confidentialité garantie</strong> : Conformément aux lois RGPD, vos coordonnées sont transmises uniquement aux artisans locaux certifiés RGE du Vaucluse affectés à votre étude. Aucun spam. Vous pouvez vous inscrire sur Bloctel.
+      </div>
+
+      <div class="form-actions-row">
+        <button type="button" class="btn-secondary prev-step-trigger">&larr; Retour</button>
+        <button type="submit" class="btn-primary" id="final-submit-btn">Obtenir mes Devis Gratuits &rarr;</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Embedded zip code database representation for client-side resolution -->
+<script define:vars={{ zipToCityMap }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('quote-steps-form');
+    const container = document.getElementById('quote-form-container');
+    if (!form || !container) return;
+
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    // Radio card select behaviors
+    const setupRadioCards = () => {
+      const stepSections = container.querySelectorAll('.form-step-section');
+      stepSections.forEach(section => {
+        const labels = section.querySelectorAll('.radio-card');
+        labels.forEach(label => {
+          label.addEventListener('click', () => {
+            labels.forEach(l => l.classList.remove('selected'));
+            label.classList.add('selected');
+            const input = label.querySelector('input[type="radio"]');
+            if (input) input.checked = true;
+          });
+        });
+      });
+    };
+    setupRadioCards();
+
+    // Navigation triggers
+    const showStep = (step) => {
+      const dots = container.querySelectorAll('.step-dot');
+      const sections = container.querySelectorAll('.form-step-section');
+      
+      sections.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => {
+        d.classList.remove('active');
+        const dStep = parseInt(d.dataset.step);
+        if (dStep === step) d.classList.add('active');
+        if (dStep < step) d.classList.add('completed');
+        else d.classList.remove('completed');
+      });
+
+      const activeSection = container.querySelector(`.form-step-section[data-step="${step}"]`);
+      if (activeSection) activeSection.classList.add('active');
+      currentStep = step;
+      
+      // Focus first input of active section if any
+      const input = activeSection?.querySelector('input:not([type="radio"]):not([readonly])');
+      if (input) input.focus();
+    };
+
+    container.querySelectorAll('.next-step-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        // Validate inputs in active step
+        const activeSection = container.querySelector(`.form-step-section[data-step="${currentStep}"]`);
+        if (activeSection) {
+          const inputs = activeSection.querySelectorAll('input[required]');
+          let valid = true;
+          inputs.forEach(input => {
+            if (!input.checkValidity()) {
+              input.reportValidity();
+              valid = false;
+            }
+          });
+          
+          if (!valid) return;
+        }
+
+        if (currentStep < totalSteps) {
+          showStep(currentStep + 1);
+        }
+      });
+    });
+
+    container.querySelectorAll('.prev-step-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        if (currentStep > 1) {
+          showStep(currentStep - 1);
+        }
+      });
+    });
+
+    // Zipcode field resolution logic
+    const zipInput = document.getElementById('zipcode_field');
+    const cityInput = document.getElementById('city_field');
+    const zipError = document.getElementById('zip-error-alert');
+    const zipSuccess = document.getElementById('zip-success-alert');
+    const zipNextBtn = document.getElementById('validate-zip-step-btn');
+
+    if (zipInput && cityInput) {
+      zipInput.addEventListener('input', () => {
+        const val = zipInput.value.trim();
+        zipError.style.display = 'none';
+        zipSuccess.style.display = 'none';
+        cityInput.value = '';
+        zipNextBtn.disabled = true;
+
+        if (val.length === 5) {
+          if (!/^84\d{3}$/.test(val)) {
+            zipError.textContent = "Seuls les codes postaux du Vaucluse (84) sont éligibles à cette offre.";
+            zipError.style.display = 'block';
+            return;
+          }
+
+          const matchedCity = zipToCityMap[val];
+          if (matchedCity) {
+            cityInput.value = matchedCity;
+            zipSuccess.textContent = `✅ Commune détectée : ${matchedCity}`;
+            zipSuccess.style.display = 'block';
+            zipNextBtn.disabled = false;
+          } else {
+            zipError.textContent = "Code postal non répertorié ou population insuffisante en Vaucluse.";
+            zipError.style.display = 'block';
+          }
+        }
+      });
+    }
+
+    // Form Submission with validation
+    form.addEventListener('submit', (e) => {
+      const phone = document.getElementById('phone_field');
+      const phoneError = document.getElementById('phone-error-alert');
+      if (phone && phoneError) {
+        phoneError.style.display = 'none';
+        if (!/^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/.test(phone.value.replace(/\s+/g, ''))) {
+          e.preventDefault();
+          phoneError.style.display = 'block';
+          phone.focus();
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .form-step-section {
+    display: none;
+  }
+  
+  .form-step-section.active {
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-actions-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px;
+  }
+
+  .form-actions-row .btn-primary,
+  .form-actions-row .btn-secondary {
+    flex: 1;
+    min-height: 48px;
+  }
+
+  .radio-card-desc {
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .zip-validation-alert {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .zip-validation-alert.error {
+    background: #FEF2F2;
+    border: 1.5px solid #FCA5A5;
+    color: #991B1B;
+  }
+
+  .zip-validation-alert.success {
+    background: #ECFDF5;
+    border: 1.5px solid #6EE7B7;
+    color: #065F46;
+  }
+
+  .privacy-notice-box {
+    margin: 20px 0;
+    padding: 15px;
+    background: var(--primary-light);
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+</style>

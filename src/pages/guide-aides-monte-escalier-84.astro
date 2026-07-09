@@ -1,0 +1,104 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const activeTab = 'aides';
+---
+
+<Layout title="Aides Financières Monte-Escalier Vaucluse : APA 84 & Anah" description="Découvrez les aides disponibles en Vaucluse (84) pour financer votre monte-escalier. Modalités de l'APA 84, subvention MaPrimeAdapt' et crédit d'impôt." activeTab={activeTab}>
+  <Breadcrumb items={[{ label: "💶 Aides Financières 84" }]} />
+
+  <section style="background: linear-gradient(135deg, var(--primary) 0%, #4C1D95 100%); padding: 50px 0; color: white; text-align: center;">
+    <div class="container">
+      <span class="badge-pill" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:white; margin-bottom:15px;">
+        Dossier 2026
+      </span>
+      <h1 style="font-size:32px;">Financer son Monte-Escalier en Vaucluse (84)</h1>
+      <p style="font-size:18px; margin-top:10px; opacity:0.9;">
+        MaPrimeAdapt', APA 84, Crédit d'Impôt : obtenez jusqu'à 80% de prise en charge.
+      </p>
+    </div>
+  </section>
+
+  <section style="padding: 60px 0; background: white;">
+    <div class="container" style="max-width: 900px;">
+      
+      <!-- Subventions Nationales -->
+      <div style="margin-bottom: 40px;">
+        <h2 style="font-size: 26px; color: var(--primary); margin-bottom: 15px;">1. MaPrimeAdapt' (Le guichet unique de l'Anah)</h2>
+        <p style="font-size:16px; color:var(--text); line-height:1.6; margin-bottom:15px;">
+          Depuis le 1er janvier 2024, **MaPrimeAdapt'** regroupe les anciennes aides d'adaptation de l'Anah. Elle s'adresse aux retraités âgés de 70 ans et plus, ou de 60 à 69 ans sous condition de perte d'autonomie (GIR 1 à 6).
+        </p>
+        <div style="background:var(--bg); border-left:4px solid var(--primary); padding:20px; border-radius:0 12px 12px 0; margin-bottom:20px;">
+          <h4 style="margin-bottom:8px; color:var(--primary);">Montants attribués selon vos ressources :</h4>
+          <ul style="list-style:none; font-size:15px; display:flex; flex-direction:column; gap:8px;">
+            <li>🔹 <strong>Catégorie Très Modeste</strong> : Subvention de <strong>70% du montant HT</strong> des travaux (plafond éligible de 22 000 € HT).</li>
+            <li>🔹 <strong>Catégorie Modeste</strong> : Subvention de <strong>50% du montant HT</strong> des travaux.</li>
+          </ul>
+        </div>
+        <p style="font-size:15px; color:var(--text-muted); font-style:italic;">
+          *Important : l'intervention d'un Assistant à Maîtrise d'Ouvrage (AMO - Accompagnateur Rénov') est obligatoire pour monter le dossier administratif.*
+        </p>
+      </div>
+
+      <!-- APA 84 -->
+      <div style="margin-bottom: 40px;">
+        <h2 style="font-size: 26px; color: var(--primary); margin-bottom: 15px;">2. L'APA 84 (Allocation Personnalisée d'Autonomie)</h2>
+        <p style="font-size:16px; color:var(--text); line-height:1.6; margin-bottom:15px;">
+          Versée par le <strong>Conseil Départemental de Vaucluse</strong>, l'APA est destinée aux personnes âgées de 60 ans et plus en situation de perte d'autonomie physique ou mentale.
+        </p>
+        
+        <div style="background:var(--primary-light); border:1px solid var(--border-color); border-radius:12px; padding:20px; margin-bottom:20px;">
+          <h4 style="margin-bottom:10px;">Critères d'éligibilité pour l'APA 84 :</h4>
+          <ul style="font-size:15px; display:flex; flex-direction:column; gap:8px; padding-left:20px;">
+            <li>Être classé en GIR 1, GIR 2, GIR 3 ou GIR 4 de la grille nationale AGGIR.</li>
+            <li>Résider de façon stable dans une commune du Vaucluse (résidence principale).</li>
+            <li>Une visite d'évaluation à domicile par une équipe médico-sociale du département est nécessaire pour valider le plan d'aide.</li>
+          </ul>
+        </div>
+
+        <p style="font-size:15px; line-height:1.6;">
+          <strong>Où déposer sa demande d'APA en Vaucluse ?</strong><br/>
+          Vous pouvez retirer le dossier d'APA auprès du **CCAS (Centre Communal d'Action Sociale)** de votre mairie (Avignon, Orange, Carpentras, Cavaillon, Pertuis, Apt, etc.) ou vous adresser directement à la **Maison Départementale de l'Autonomie (MDA) de Vaucluse** dont le siège est situé à Avignon.
+        </p>
+      </div>
+
+      <!-- Credit impot -->
+      <div style="margin-bottom: 40px;">
+        <h2 style="font-size: 26px; color: var(--primary); margin-bottom: 15px;">3. Le Crédit d'Impôt Accessibilité (25%)</h2>
+        <p style="font-size:16px; color:var(--text); line-height:1.6; margin-bottom:15px;">
+          Les travaux d'adaptation du logement principal (pour le propriétaire ou le locataire) ouvrent droit à un crédit d'impôt sur le revenu égal à <strong>25% des dépenses d'équipements</strong> (fourniture et pose). Le plafond des dépenses éligibles est pluriannuel sur 5 ans :
+        </p>
+        <ul style="font-size:15px; padding-left:20px; margin-bottom:20px; display:flex; flex-direction:column; gap:8px;">
+          <li>👤 Personne seule : plafond de <strong>5 000 €</strong> (soit 1 250 € de remboursement direct)</li>
+          <li>👥 Couple marié/pacsé : plafond de <strong>10 000 €</strong> (soit 2 500 € de remboursement direct)</li>
+          <li>➕ Majorité de <strong>120 €</strong> par personne à charge supplémentaire.</li>
+        </ul>
+        <p style="font-size:14px; color:var(--text-muted);">
+          *Le crédit d'impôt s'applique sur le reste à charge réel (la somme payée après déduction des aides Anah ou APA).*
+        </p>
+      </div>
+
+      <!-- MDPH -->
+      <div style="margin-bottom: 40px;">
+        <h2 style="font-size: 26px; color: var(--primary); margin-bottom: 15px;">4. PCH (Prestation Compensatrice de Handicap)</h2>
+        <p style="font-size:16px; color:var(--text); line-height:1.6; margin-bottom:15px;">
+          Si la perte de mobilité intervient avant l'âge de 60 ans, la **MDPH de Vaucluse** peut financer l'aménagement du logement (dont les monte-escaliers et plateformes PMR) via la PCH, à hauteur de 80% à 100% dans la limite d'un plafond de 10 000 € par tranche de 10 ans.
+        </p>
+      </div>
+
+      <!-- Checklist -->
+      <div style="background:var(--bg); border:2px dashed var(--primary); border-radius:15px; padding:30px; margin-bottom:40px;">
+        <h3 style="font-size:18px; color:var(--primary); margin-bottom:15px; text-align:center;">📋 Règle d'or absolue pour vos aides :</h3>
+        <p style="font-size:15px; line-height:1.6; text-align:center; color:var(--text);">
+          ⚠️ <strong>Ne signez aucun devis ni bon de commande</strong> avant d'avoir déposé votre demande d'aide auprès de l'Anah ou du CCAS ! Tout versement d'acompte ou démarrage de travaux avant le dépôt formel du dossier entraîne l'annulation définitive des subventions.
+        </p>
+      </div>
+
+      <div style="text-align:center;">
+        <a href="/devis/" class="btn-primary">Estimer mes aides & subventions en ligne &rarr;</a>
+      </div>
+
+    </div>
+  </section>
+</Layout>

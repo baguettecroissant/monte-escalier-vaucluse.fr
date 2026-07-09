@@ -1,0 +1,221 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import communes from '../data/communes.json';
+
+export async function getStaticPaths() {
+  return communes.map((c, index) => {
+    // Generate proximity links (previous 3 and next 3 in the array, looping around)
+    const count = communes.length;
+    const proximityIndices = [
+      (index - 3 + count) % count,
+      (index - 2 + count) % count,
+      (index - 1 + count) % count,
+      (index + 1) % count,
+      (index + 2) % count,
+      (index + 3) % count
+    ];
+    
+    const nearbyCommunes = proximityIndices.map(i => ({
+      nom: communes[i].nom,
+      slug: communes[i].slug,
+      codePostal: communes[i].codePostal
+    }));
+
+    return {
+      params: { commune: c.slug },
+      props: { commune: c, nearbyCommunes }
+    };
+  });
+}
+
+interface Props {
+  commune: typeof communes[0];
+  nearbyCommunes: { nom: string; slug: string; codePostal: string; }[];
+}
+
+const { commune, nearbyCommunes } = Astro.props;
+
+// Contextual images based on the micro-region to avoid duplicate content penalties
+let localImage = "/images/hero-monte-escalier-vaucluse.png";
+let imageAlt = `Installation de monte-escalier à ${commune.nom} dans un mas provençal`;
+
+if (commune.intercommunalite.includes("Luberon")) {
+  localImage = "/images/guide-village-perche.png";
+  imageAlt = `Monte-escalier compact adapté aux ruelles et maisons de village de ${commune.nom} dans le Luberon`;
+} else if (commune.intercommunalite.includes("Comtat")) {
+  localImage = "/images/guide-mas-provencal.png";
+  imageAlt = `Intégration d'un fauteuil monte-escalier dans un mas provençal en pierre près de ${commune.nom}`;
+}
+---
+
+<Layout 
+  title={`Monte-Escalier ${commune.nom} (${commune.codePostal}) : Prix & Devis Pose`} 
+  description={`Faites installer votre monte-escalier à ${commune.nom}. Grille de prix 2026, estimations d'aides (Anah MaPrimeAdapt', APA 84) et devis d'artisans sous ${commune.marketData.delaiMoyenJours} jours.`}
+>
+  <!-- Schema LocalBusiness & FAQ -->
+  <SchemaMarkup type="LocalBusiness" data={{
+    name: `Monte-Escalier ${commune.nom}`,
+    description: `Installation de monte-escaliers droits et courbes pour seniors à ${commune.nom} (${commune.codePostal}).`,
+    locality: commune.nom,
+    postalCode: commune.codePostal
+  }} />
+  <SchemaMarkup type="FAQPage" data={commune.faq} />
+
+  <Breadcrumb items={[
+    { label: "Villes du Vaucluse", url: "/communes/" },
+    { label: commune.nom }
+  ]} />
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container two-column-layout">
+      <div>
+        <span class="badge-pill" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:white; margin-bottom:15px;">
+          📍 Proximité {commune.nom} ({commune.codePostal})
+        </span>
+        <h1 style="font-size:36px; line-height:1.2; margin-bottom:20px;">
+          Installation de Monte-Escalier à {commune.nom}
+        </h1>
+        <p style="font-size:18px; margin-bottom:25px; opacity:0.9; line-height:1.5;">
+          {commune.introText} Sécurisez votre indépendance à domicile et prévenez les risques de chute.
+        </p>
+
+        <div style="background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,255,255,0.1); border-radius:15px; padding:20px; font-size:14px; line-height:1.5;">
+          <strong>📊 Données du marché à {commune.nom} :</strong>
+          <ul style="list-style:none; margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+            <li>👥 Taux de seniors de plus de 60 ans : <strong>{commune.marketData.seniorPercentage}%</strong></li>
+            <li>💼 Artisans certifiés actifs sur la zone : <strong>{commune.marketData.installateursAgrees} installateurs</strong></li>
+            <li>⏳ Délai moyen d'intervention technique : <strong>{commune.marketData.delaiMoyenJours} jours</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <StepsForm />
+      </div>
+    </div>
+  </section>
+
+  <!-- Local Content Body -->
+  <section style="padding: 60px 0; background: white;">
+    <div class="container two-column-layout" style="align-items: flex-start;">
+      
+      <!-- Left: Local Info -->
+      <div style="font-size: 16px; line-height: 1.6; color: var(--text);">
+        
+        <!-- Local Context Image -->
+        <div style="margin-bottom: 30px; border-radius: 15px; overflow: hidden; border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          <img src={localImage} alt={imageAlt} style="width:100%; max-height:350px; object-fit:cover;" />
+          <div style="background:var(--bg); padding:10px 15px; font-size:13px; color:var(--text-muted); font-style:italic; border-top:1px solid var(--border-color); text-align:center;">
+            Photo illustrative : {imageAlt}
+          </div>
+        </div>
+
+        <h2 style="font-size:26px; color:var(--primary); margin-bottom:15px;">Adapter son logement à {commune.nom}</h2>
+        <p style="margin-bottom:15px;">
+          {commune.accessibilityChallenge}
+        </p>
+        <p style="margin-bottom:15px;">
+          {commune.localHelp}
+        </p>
+        <p style="margin-bottom:25px;">
+          {commune.anecdotePatrimoine}
+        </p>
+
+        <!-- Technical characteristics Card -->
+        <div style="background: var(--bg); border: 1.5px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom:40px;">
+          <h3 style="font-size: 18px; color: var(--primary); margin-bottom:15px;">⚙️ Spécifications recommandées sur ce secteur :</h3>
+          <ul style="list-style:none; font-size:14px; display:flex; flex-direction:column; gap:10px;">
+            <li>🔹 Configuration conseillée : <strong>{commune.stairliftCharacteristics.typeEscalier}</strong></li>
+            <li>🔹 Type de guidage : <strong>{commune.stairliftCharacteristics.rail}</strong></li>
+            <li>🔹 Option ergonomie : <strong>{commune.stairliftCharacteristics.option}</strong></li>
+            <li>🔹 Certification : <strong>NF EN 81-40 ({commune.stairliftCharacteristics.chargeUtile})</strong></li>
+          </ul>
+        </div>
+
+        <!-- FAQs -->
+        <h2 style="font-size:26px; color:var(--primary); margin-bottom:20px;">Questions fréquentes à {commune.nom}</h2>
+        <div style="display:flex; flex-direction:column; gap:20px; margin-bottom:40px;">
+          {commune.faq.map(item => (
+            <div style="border-bottom:1.5px solid var(--border-color); padding-bottom:15px;">
+              <h4 style="font-size:16px; color:var(--text); margin-bottom:6px;">❓ {item.q}</h4>
+              <p style="font-size:14px; color:var(--text-muted); line-height:1.5;">{item.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right Sidebar: Regional Identity & Proximity Links -->
+      <aside style="display:flex; flex-direction:column; gap:30px; position:sticky; top:100px;">
+        
+        <!-- Google-friendly Geographic Metadata Card -->
+        <div style="background: white; border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow:var(--shadow-sm);">
+          <h3 style="font-size:18px; color:var(--primary); margin-bottom:15px; text-align:center;">📋 Fiche administrative : {commune.nom}</h3>
+          
+          <table style="width:100%; font-size:13px; border-collapse:collapse; margin-bottom:15px;">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <td style="padding:8px 0; color:var(--text-muted);">Code Insee</td>
+                <td style="padding:8px 0; text-align:right; font-weight:bold;">{commune.codeInsee}</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <td style="padding:8px 0; color:var(--text-muted);">Superficie</td>
+                <td style="padding:8px 0; text-align:right; font-weight:bold;">{commune.geographicData.surfaceKm2} km²</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <td style="padding:8px 0; color:var(--text-muted);">Densité</td>
+                <td style="padding:8px 0; text-align:right; font-weight:bold;">{commune.geographicData.density} hab/km²</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <td style="padding:8px 0; color:var(--text-muted);">Distance d'Avignon</td>
+                <td style="padding:8px 0; text-align:right; font-weight:bold;">~ {commune.geographicData.distanceToAvignon} km</td>
+              </tr>
+              <tr>
+                <td style="padding:8px 0; color:var(--text-muted);">Altitude moyenne</td>
+                <td style="padding:8px 0; text-align:right; font-weight:bold;">{commune.altitude} m</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--border-color); padding-top:15px; font-size:12px;">
+            <strong style="color:var(--text); margin-bottom:4px; display:block;">Outbound links officiels :</strong>
+            <a href={commune.geographicData.geoportailLink} target="_blank" rel="noopener noreferrer" style="color:var(--primary); text-decoration:none; display:flex; align-items:center; gap:5px;">
+              🗺️ Carte Géoportail de {commune.nom} &rarr;
+            </a>
+            <a href={commune.geographicData.inseeLink} target="_blank" rel="noopener noreferrer" style="color:var(--primary); text-decoration:none; display:flex; align-items:center; gap:5px;">
+              📊 Statistiques INSEE {commune.nom} &rarr;
+            </a>
+            <a href={commune.geographicData.vaucluseSeniorLink} target="_blank" rel="noopener noreferrer" style="color:var(--primary); text-decoration:none; display:flex; align-items:center; gap:5px;">
+              🏛️ Portail Autonomie Vaucluse &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Proximity loop Links -->
+        <div style="background: var(--primary-light); border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 25px;">
+          <h3 style="font-size:18px; color:var(--primary); margin-bottom:15px; text-align:center;">📍 Villes voisines (84)</h3>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+            {nearbyCommunes.map(nc => (
+              <li>
+                <a href={`/monte-escalier-${nc.slug}/`} style="text-decoration:none; display:flex; justify-content:space-between; background:white; border:1px solid var(--border-color); padding:10px; border-radius:8px; font-size:13px; color:var(--text); transition:var(--transition);">
+                  <strong>{nc.nom}</strong>
+                  <span style="color:var(--primary); font-size:11px;">{nc.codePostal} &rarr;</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div style="margin-top:20px; text-align:center; border-top:1px solid var(--border-color); padding-top:15px;">
+            <a href={`/installateur-monte-escalier-${commune.slug}/`} style="font-size:13px; font-weight:bold; color:var(--secondary); text-decoration:none;">
+              🏢 Trouver un installateur à {commune.nom} &rarr;
+            </a>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+</Layout>

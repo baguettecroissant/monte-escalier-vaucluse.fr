@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const activeTab = 'devis';
+---
+
+<Layout title="Demande de Devis Monte-Escalier Vaucluse : Estimez Vos Aides" description="Estimez gratuitement le montant de vos aides financières (APA 84, MaPrimeAdapt') et recevez des offres comparatives gratuites pour l'installation d'un monte-escalier." activeTab={activeTab}>
+  <!-- Breadcrumbs -->
+  <Breadcrumb items={[{ label: "Demander des devis gratuits" }]} />
+
+  <section style="padding: 60px 0; background: var(--bg);">
+    <div class="container" style="max-width: 700px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span class="badge-pill" style="margin-bottom:10px;">Formulaire de qualification</span>
+        <h1 style="font-size: 32px; color: var(--primary);">Estimez le coût de votre monte-escalier</h1>
+        <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">
+          Remplissez les 5 étapes ci-dessous pour recevoir jusqu'à 3 devis comparatifs gratuits d'artisans vauclusiens certifiés RGE.
+        </p>
+      </div>
+
+      <!-- Centered interactive steps form -->
+      <StepsForm />
+
+      <div style="margin-top: 40px; background: white; border: 1.5px solid var(--border-color); border-radius: 15px; padding: 25px; font-size: 14px; color: var(--text-muted); line-height: 1.6; display: flex; flex-direction: column; gap: 15px;">
+        <h3 style="font-size: 16px; color: var(--text); font-weight: 800; display: flex; align-items: center; gap: 8px;">
+          🛡️ Sécurité de vos données
+        </h3>
+        <p>
+          Vos informations sont destinées uniquement au traitement de votre demande de devis dans le cadre des régulations de protection des données de la CNIL et du RGPD. Elles ne seront jamais revendues ou utilisées à des fins commerciales publicitaires non sollicitées.
+        </p>
+        <p>
+          En soumettant le formulaire, vous acceptez d'être contacté par téléphone ou par email par notre conseiller afin de confirmer l'éligibilité technique de votre escalier aux différentes subventions.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

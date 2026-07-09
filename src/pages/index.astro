@@ -1,0 +1,260 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import communes from '../data/communes.json';
+
+const activeTab = 'home';
+const topCommunes = communes.slice(0, 12);
+
+// Load recent blog guides
+const posts = Object.values(import.meta.glob('../content/guides/*.md', { eager: true })) as any[];
+const recentPosts = posts
+  .sort((a, b) => new Date(b.frontmatter.publishDate).getTime() - new Date(a.frontmatter.publishDate).getTime())
+  .slice(0, 3);
+---
+
+<Layout activeTab={activeTab}>
+  <!-- JSON-LD Structured Data -->
+  <SchemaMarkup type="Organization" data={{}} />
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container two-column-layout">
+      <div>
+        <span class="badge-pill" style="margin-bottom:15px; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:white;">
+          📍 Département de Vaucluse (84)
+        </span>
+        <h1 style="font-size:42px; margin-bottom:20px; line-height:1.2; text-shadow:0 2px 4px rgba(0,0,0,0.3);">
+          Sécurisez votre maintien à domicile en Vaucluse
+        </h1>
+        <p style="font-size:20px; margin-bottom:30px; opacity:0.9; line-height:1.5;">
+          Comparez gratuitement les installateurs locaux certifiés RGE et obtenez le meilleur tarif pour votre monte-escalier en 2026.
+        </p>
+        
+        <ul style="list-style:none; margin-bottom:30px; font-weight:700; display:flex; flex-direction:column; gap:12px;">
+          <li style="display:flex; align-items:center; gap:8px;">✅ Estimation immédiate des subventions Anah & APA 84</li>
+          <li style="display:flex; align-items:center; gap:8px;">✅ Matériel conforme à la norme NF EN 81-40</li>
+          <li style="display:flex; align-items:center; gap:8px;">✅ Devis gratuits d'artisans locaux sous 48h</li>
+        </ul>
+
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:15px; padding:15px; display:inline-flex; align-items:center; gap:15px;">
+          <span style="font-size:30px;" class="float-lavande">💜</span>
+          <p style="font-size:14px; opacity:0.8; line-height:1.4;">
+            <strong>Maintien à domicile digne</strong> : Adaptations respectueuses du cachet historique de votre mas provençal ou maison vauclusienne.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <StepsForm />
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Propositions -->
+  <section style="padding:80px 0; background:white;">
+    <div class="container">
+      <div style="text-align:center; max-width:800px; margin:0 auto 50px;">
+        <span class="badge-pill">Pourquoi comparer ?</span>
+        <h2 style="font-size:32px; margin-top:15px;">Un accompagnement sur mesure pour nos aînés vauclusiens</h2>
+        <p style="color:var(--text-muted); margin-top:10px;">
+          Parce que chaque escalier a sa propre géométrie et chaque famille son propre budget, nous sélectionnons uniquement des professionnels agréés.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span style="font-size:40px; display:block; margin-bottom:15px;">🛠️</span>
+          <h3 style="font-size:20px; margin-bottom:10px;">Ancrage & Solidité Locale</h3>
+          <p style="font-size:16px; color:var(--text-muted); line-height:1.5;">
+            Des techniciens basés dans le 84 (Avignon, Orange, Carpentras) pour une installation soignée en quelques heures et une assistance SAV de proximité garantie.
+          </p>
+        </div>
+
+        <div class="card">
+          <span style="font-size:40px; display:block; margin-bottom:15px;">💶</span>
+          <h3 style="font-size:20px; margin-bottom:10px;">Maximisation des Aides</h3>
+          <p style="font-size:16px; color:var(--text-muted); line-height:1.5;">
+            Cumulez le dispositif national MaPrimeAdapt' avec l'APA 84 du Conseil Départemental de Vaucluse et bénéficiez de 25% de crédit d'impôt direct.
+          </p>
+        </div>
+
+        <div class="card">
+          <span style="font-size:40px; display:block; margin-bottom:15px;">📐</span>
+          <h3 style="font-size:20px; margin-bottom:10px;">Intégration Bâti Ancien</h3>
+          <p style="font-size:16px; color:var(--text-muted); line-height:1.5;">
+            Des solutions compactes monotubes déclinées dans des tons provençaux (beige sable, ocre rustique) pour préserver l'harmonie esthétique de vos intérieurs en pierre.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Budget Simulator -->
+  <section style="padding:80px 0; background:var(--primary-light); border-top:1.5px solid var(--border-color); border-bottom:1.5px solid var(--border-color);">
+    <div class="container two-column-layout">
+      <div>
+        <span class="badge-pill">Simulateur</span>
+        <h2 style="font-size:32px; margin-top:15px; margin-bottom:20px;">Estimez le prix de votre monte-escalier</h2>
+        <p style="color:var(--text-muted); font-size:16px; line-height:1.6; margin-bottom:20px;">
+          Les tarifs dépendent essentiellement de la configuration de votre escalier. Un modèle droit utilise un rail standard en aluminium, tandis qu'un modèle courbe requiert un cintrage sur mesure en acier en usine.
+        </p>
+
+        <div style="background:white; border:1px solid var(--border-color); border-radius:15px; padding:20px; margin-bottom:25px;">
+          <h4 style="margin-bottom:10px; color:var(--primary);">Plafonds d'aides 2026 :</h4>
+          <ul style="list-style:none; font-size:15px; display:flex; flex-direction:column; gap:8px;">
+            <li>🔸 <strong>Revenus Très Modestes</strong> : Financement jusqu'à <strong>70% HT</strong> (max 15 400 €)</li>
+            <li>🔸 <strong>Revenus Modestes</strong> : Financement jusqu'à <strong>50% HT</strong> (max 11 000 €)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="background:white; border:2px solid var(--border-color); border-radius:var(--radius-md); padding:30px; box-shadow:var(--shadow-md);">
+        <h3 style="font-size:20px; margin-bottom:20px; text-align:center; color:var(--primary);">Sélectionnez votre escalier</h3>
+        
+        <div class="form-group">
+          <label for="sim-stair-type">Configuration</label>
+          <select id="sim-stair-type" class="form-control">
+            <option value="droit">Droit standard (Sans virage) — dès 2 500 €</option>
+            <option value="tournant">Tournant (1 ou 2 virages) — dès 5 500 €</option>
+            <option value="exterieur">Extérieur (Étanche IPX5) — dès 4 000 €</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="sim-income">Revenus annuels du foyer</label>
+          <select id="sim-income" class="form-control">
+            <option value="tres_modeste">Revenus Très Modestes (Subvention 70%)</option>
+            <option value="modeste">Revenus Modestes (Subvention 50%)</option>
+            <option value="intermediaire">Revenus Standards (Crédit d'impôt uniquement)</option>
+          </select>
+        </div>
+
+        <div style="background:var(--bg); border-radius:12px; padding:20px; text-align:center; margin-top:20px;">
+          <span style="font-size:14px; font-weight:bold; color:var(--text-muted); display:block; text-transform:uppercase;">Estimation reste à charge :</span>
+          <span id="sim-result-tag" class="price-tag" style="font-size:32px; display:block; margin:8px 0;">900 € *</span>
+          <span style="font-size:12px; color:var(--text-muted); display:block;">* Reste à charge après subvention Anah & crédit d'impôt 25%.</span>
+        </div>
+
+        <div style="text-align:center; margin-top:20px;">
+          <a href="/devis/" class="btn-primary" style="width:100%;">Demander mon devis officiel &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cities Directory Link -->
+  <section style="padding:80px 0; background:white;">
+    <div class="container">
+      <div style="text-align:center; max-width:800px; margin:0 auto 50px;">
+        <span class="badge-pill">Proximité</span>
+        <h2 style="font-size:32px; margin-top:15px;">Artisans actifs en Vaucluse (84)</h2>
+        <p style="color:var(--text-muted); margin-top:10px;">
+          Nos partenaires installateurs certifiés RGE se déplacent gratuitement pour réaliser des relevés 3D de vos escaliers dans toutes les communes du département.
+        </p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:15px; margin-bottom:40px;">
+        {topCommunes.map(c => (
+          <a href={`/monte-escalier-${c.slug}/`} style="text-decoration:none; display:flex; flex-direction:column; background:var(--bg); border:1.5px solid var(--border-color); padding:15px; border-radius:12px; text-align:center; color:var(--text); transition:var(--transition);">
+            <strong style="color:var(--primary); font-size:16px;">{c.nom}</strong>
+            <span style="font-size:13px; color:var(--text-muted); margin-top:4px;">Code postal {c.codePostal}</span>
+          </a>
+        ))}
+      </div>
+
+      <div style="text-align:center;">
+        <a href="/communes/" class="btn-secondary">Voir toutes les communes du Vaucluse &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guides & Conseils Section -->
+  <section style="padding:80px 0; background:var(--primary-light); border-top:1.5px solid var(--border-color);">
+    <div class="container">
+      <div style="text-align:center; max-width:800px; margin:0 auto 50px;">
+        <span class="badge-pill">Dossiers & Conseils</span>
+        <h2 style="font-size:32px; margin-top:15px;">Derniers conseils & guides pratiques du Vaucluse</h2>
+        <p style="color:var(--text-muted); margin-top:10px;">
+          Retrouvez nos derniers dossiers complets pour préparer et financer votre projet d'accessibilité PMR en Provence.
+        </p>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:40px;">
+        {recentPosts.map(post => {
+          const filename = post.file.split('/').pop() || '';
+          const slug = filename.replace('.md', '');
+          return (
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:0; overflow:hidden; background:white; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);">
+              <img src={post.frontmatter.image} alt={post.frontmatter.title} style="width:100%; height:200px; object-fit:cover;" />
+              <div style="padding:25px; flex-grow:1; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <span style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px;">
+                    📅 {new Date(post.frontmatter.publishDate).toLocaleDateString('fr-FR', {year: 'numeric', month: 'long', day: 'numeric'})}
+                  </span>
+                  <h3 style="font-size:18px; margin-bottom:10px; line-height:1.3; color:var(--primary);">
+                    {post.frontmatter.title}
+                  </h3>
+                  <p style="font-size:14px; color:var(--text-muted); line-height:1.5; margin-bottom:20px;">
+                    {post.frontmatter.description}
+                  </p>
+                </div>
+                <div>
+                  <a href={`/guides/${slug}/`} style="font-size:14px; font-weight:bold; text-decoration:none; color:var(--secondary);">
+                    Lire la suite &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style="text-align:center;">
+        <a href="/guides/" class="btn-secondary">Découvrir tous nos guides &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive script for simulator -->
+  <script>
+    const stairSelect = document.getElementById('sim-stair-type') as HTMLSelectElement | null;
+    const incomeSelect = document.getElementById('sim-income') as HTMLSelectElement | null;
+    const resultTag = document.getElementById('sim-result-tag') as HTMLSpanElement | null;
+
+    if (stairSelect && incomeSelect && resultTag) {
+      const updatePrice = () => {
+        const stair = stairSelect.value;
+        const income = incomeSelect.value;
+        
+        let basePrice = 3000;
+        if (stair === 'tournant') basePrice = 7500;
+        if (stair === 'exterieur') basePrice = 5000;
+
+        let finalPrice = basePrice;
+        
+        if (income === 'tres_modeste') {
+          // 70% Anah subvention
+          const rem = basePrice * 0.3;
+          // 25% tax credit on remaining
+          finalPrice = rem * 0.75;
+        } else if (income === 'modeste') {
+          // 50% Anah subvention
+          const rem = basePrice * 0.5;
+          // 25% tax credit on remaining
+          finalPrice = rem * 0.75;
+        } else {
+          // standard: 25% tax credit
+          finalPrice = basePrice * 0.75;
+        }
+
+        resultTag.textContent = `${Math.round(finalPrice).toLocaleString('fr-FR')} € *`;
+      };
+
+      stairSelect.addEventListener('change', updatePrice);
+      incomeSelect.addEventListener('change', updatePrice);
+      updatePrice();
+    }
+  </script>
+</Layout>

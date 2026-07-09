@@ -1,0 +1,37 @@
+---
+interface Props {
+  items: {
+    label: string;
+    url?: string;
+  }[];
+}
+
+const { items } = Astro.props;
+---
+<nav class="breadcrumb-container" aria-label="Fil d'Ariane">
+  <div class="container">
+    <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item">
+          <span itemprop="name">Accueil</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+      {items.map((item, index) => (
+        <>
+          <span class="breadcrumb-separator" aria-hidden="true">&rsaquo;</span>
+          <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            {item.url ? (
+              <a href={item.url} itemprop="item">
+                <span itemprop="name">{item.label}</span>
+              </a>
+            ) : (
+              <span itemprop="name" aria-current="page">{item.label}</span>
+            )}
+            <meta itemprop="position" content={(index + 2).toString()} />
+          </li>
+        </>
+      ))}
+    </ol>
+  </div>
+</nav>

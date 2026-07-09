@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const activeTab = 'tarifs';
+---
+
+<Layout title="Tarifs Monte-Escalier Vaucluse 2026 : Prix Droit & Courbe" description="Découvrez la grille de tarifs complète pour l'achat et la pose d'un monte-escalier en Vaucluse (84). Estimations détaillées par modèle (droit, tournant, extérieur) et aides." activeTab={activeTab}>
+  <Breadcrumb items={[{ label: "Grille de tarifs 2026" }]} />
+
+  <!-- Hero sub header -->
+  <section style="background:linear-gradient(135deg, var(--primary) 0%, #4C1D95 100%); padding: 50px 0; color: white; text-align: center;">
+    <div class="container">
+      <span class="badge-pill" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:white; margin-bottom:15px;">
+        Mise à jour : Janvier 2026
+      </span>
+      <h1 style="font-size:32px;">Prix et Modèles de Monte-Escalier en Vaucluse</h1>
+      <p style="font-size:18px; margin-top:10px; opacity:0.9;">
+        Combien coûte la pose d'un monte-escalier ? Retrouvez nos fourchettes indicatives TTC posé.
+      </p>
+    </div>
+  </section>
+
+  <!-- Prices Grid -->
+  <section style="padding: 60px 0; background: white;">
+    <div class="container">
+      <div class="grid-3" style="margin-bottom: 50px;">
+        
+        <!-- Droit -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <span style="font-size:32px; display:block; margin-bottom:10px;">📏</span>
+            <h3 style="font-size:20px; color:var(--primary); margin-bottom:8px;">Modèle Droit</h3>
+            <p style="font-size:14px; color:var(--text-muted); margin-bottom:15px;">Pour escaliers d'une seule volée, sans palier ni virage.</p>
+            <ul style="font-size:15px; margin-bottom:20px; display:flex; flex-direction:column; gap:8px;">
+              <li>✔️ Rail aluminium anodisé</li>
+              <li>✔️ Pivotement manuel du siège</li>
+              <li>✔️ Ceinture de sécurité à enclenchement</li>
+              <li>✔️ Batteries de secours intégrées</li>
+            </ul>
+          </div>
+          <div>
+            <div style="border-top:1.5px solid var(--border-color); padding-top:15px; text-align:center;">
+              <span style="font-size:13px; color:var(--text-muted); display:block;">Tarif indicatif posé</span>
+              <span class="price-tag" style="font-size:26px; display:block; margin:5px 0;">2 500 € - 5 000 €</span>
+              <span style="font-size:11px; color:var(--text-muted);">* Hors subventions Anah & APA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Courbe -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; border-color:var(--secondary); box-shadow:0 0 0 2px rgba(194,65,12,0.1);">
+          <div>
+            <span style="font-size:32px; display:block; margin-bottom:10px;">🔄</span>
+            <h3 style="font-size:20px; color:var(--primary); margin-bottom:8px;">Modèle Courbe (1 virage)</h3>
+            <p style="font-size:14px; color:var(--text-muted); margin-bottom:15px;">Pour escaliers tournants (quart-tournant, demi-tournant, paliers).</p>
+            <ul style="font-size:15px; margin-bottom:20px; display:flex; flex-direction:column; gap:8px;">
+              <li>✔️ Rail en acier tubulaire cintré sur mesure</li>
+              <li>✔️ Relevé technique 3D laser</li>
+              <li>✔️ Option de siège pivotant automatique</li>
+              <li>✔️ Encombrement replié ~35 cm</li>
+            </ul>
+          </div>
+          <div>
+            <div style="border-top:1.5px solid var(--border-color); padding-top:15px; text-align:center;">
+              <span style="font-size:13px; color:var(--text-muted); display:block;">Tarif indicatif posé</span>
+              <span class="price-tag" style="font-size:26px; display:block; margin:5px 0; color:var(--secondary);">5 500 € - 8 500 €</span>
+              <span style="font-size:11px; color:var(--text-muted);">* Hors subventions Anah & APA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Extérieur -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <span style="font-size:32px; display:block; margin-bottom:10px;">🌿</span>
+            <h3 style="font-size:20px; color:var(--primary); margin-bottom:8px;">Modèle Extérieur</h3>
+            <p style="font-size:14px; color:var(--text-muted); margin-bottom:15px;">Pour perrons extérieurs, jardins en restanques ou terrasses.</p>
+            <ul style="font-size:15px; margin-bottom:20px; display:flex; flex-direction:column; gap:8px;">
+              <li>✔️ Traitement étanche IPX5 & anti-UV</li>
+              <li>✔️ Visserie en acier inoxydable marine A4</li>
+              <li>✔️ Housse de protection contre le Mistral</li>
+              <li>✔️ Clé de verrouillage de sécurité</li>
+            </ul>
+          </div>
+          <div>
+            <div style="border-top:1.5px solid var(--border-color); padding-top:15px; text-align:center;">
+              <span style="font-size:13px; color:var(--text-muted); display:block;">Tarif indicatif posé</span>
+              <span class="price-tag" style="font-size:26px; display:block; margin:5px 0;">4 000 € - 9 000 €</span>
+              <span style="font-size:11px; color:var(--text-muted);">* Hors subventions Anah & APA</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TVA and accessories notes -->
+      <div style="background:var(--primary-light); border:1.5px solid var(--border-color); border-radius:var(--radius-md); padding:35px; margin-bottom:50px;">
+        <h2 style="font-size:24px; color:var(--primary); margin-bottom:15px; text-align:center;">💡 Réduction fiscale et taux de TVA à 5.5%</h2>
+        <div class="grid-3" style="gap:25px; margin-top:20px; text-align:left;">
+          <div>
+            <h4 style="color:var(--text); margin-bottom:5px;">TVA Réduite à 5,5%</h4>
+            <p style="font-size:14px; color:var(--text-muted); line-height:1.5;">
+              La pose d'un monte-escalier par un artisan certifié RGE dans un logement de plus de 2 ans bénéficie automatiquement du taux de TVA réduit de 5.5% au lieu de 20%.
+            </p>
+          </div>
+          <div>
+            <h4 style="color:var(--text); margin-bottom:5px;">Crédit d'Impôt 25%</h4>
+            <p style="font-size:14px; color:var(--text-muted); line-height:1.5;">
+              Tous les ménages, qu'ils soient imposables ou non, bénéficient d'un crédit d'impôt direct de 25% sur la facture TTC (limité à 5000€ pour une personne seule, 10000€ pour un couple).
+            </p>
+          </div>
+          <div>
+            <h4 style="color:var(--text); margin-bottom:5px;">Dépannage & Entretien</h4>
+            <p style="font-size:14px; color:var(--text-muted); line-height:1.5;">
+              Un contrat annuel d'entretien coûte en moyenne entre 130 et 250 € par an, couvrant le contrôle des batteries, le serrage des fixations et le graissage du rail.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <p style="margin-bottom:20px; font-weight:700; color:var(--text);">Combien allez-vous être remboursé pour votre installation ?</p>
+        <a href="/devis/" class="btn-primary">Estimer mes subventions et aides en ligne &rarr;</a>
+      </div>
+    </div>
+  </section>
+</Layout>

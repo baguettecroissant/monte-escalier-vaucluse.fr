@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const activeTab = 'mas';
+---
+
+<Layout title="Monte-Escalier Mas Provençal en Pierre : Relevés & Intégration" description="Comment intégrer un monte-escalier dans une bâtisse ancienne ou un mas en pierre en Vaucluse (84) ? Astuces de pose : fixation chimique, coloris ocre, colimaçon." activeTab={activeTab}>
+  <Breadcrumb items={[{ label: "Solutions Mas Provençal" }]} />
+
+  <!-- Hero block -->
+  <section style="background: linear-gradient(135deg, #1E1B4B 0%, #431407 100%); padding: 60px 0; color: white; text-align: center;">
+    <div class="container" style="max-width: 900px;">
+      <span class="badge-pill" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:white; margin-bottom:15px;">
+        Intégration & Patrimoine
+      </span>
+      <h1 style="font-size:36px; line-height:1.2;">Sécuriser un Escalier Ancien en Mas Provençal</h1>
+      <p style="font-size:18px; margin-top:10px; opacity:0.9; line-height:1.5;">
+        Défis d'ancrage, marches en pierre irrégulières, tomettes d'époque et colimaçons étroits : nos artisans relèvent le défi esthétique en Vaucluse.
+      </p>
+    </div>
+  </section>
+
+  <!-- Two Column Layout content -->
+  <section style="padding: 60px 0; background: white;">
+    <div class="container two-column-layout">
+      
+      <!-- Content side -->
+      <div style="font-size: 16px; line-height: 1.6; color: var(--text);">
+        <h2 style="font-size:26px; color:var(--primary); margin-bottom:15px;">Le respect du cachet de la pierre et du terroir vauclusien</h2>
+        <p style="margin-bottom:15px;">
+          Le Vaucluse abrite un patrimoine d'exception : bastides du Comtat, mas perchés dans le Luberon ou fermes agricoles au pied du Mont Ventoux. Cependant, ces maisons de caractère possèdent souvent des escaliers complexes, avec des marches en pierre d'origine, des revêtements en tomettes fragiles ou des courbes hélicoïdales étroites.
+        </p>
+
+        <h3 style="font-size:20px; margin:25px 0 10px; color:var(--text);">Les solutions techniques sur mesure :</h3>
+        <ul style="display:flex; flex-direction:column; gap:12px; list-style:none; margin-bottom:25px;">
+          <li>🔬 <strong>Scellement chimique</strong> : Pour éviter de fendre ou de fissurer les pierres anciennes et les carreaux de terre cuite, les supports de rail sont fixés à l'aide d'injections de résine chimique sans contrainte mécanique de pression.</li>
+          <li>🎨 <strong>Thermolaquage assorti aux enduits</strong> : Les rails métalliques peuvent être peints dans des teintes spécifiques (beige ocre, crème, brun rouille) s'accordant avec les murs à la chaux ou les pierres locales.</li>
+          <li>🌀 <strong>Cintrage serré pour colimaçons</strong> : Pour les escaliers en vis étroits, le rail est façonné au millimètre près en usine le long du noyau central, laissant la partie extérieure large libre pour monter à pied.</li>
+        </ul>
+
+        <div style="background:var(--primary-light); border:1px solid var(--border-color); border-radius:12px; padding:20px; margin-bottom:20px;">
+          <h4 style="color:var(--primary); margin-bottom:5px;">💡 L'avis de l'expert accessibilité :</h4>
+          <p style="font-size:14px; color:var(--text-muted); line-height:1.5;">
+            "Les installations dans le bâti ancien sont entièrement réversibles. Si l'appareil doit un jour être retiré, les tiges d'ancrage sont coupées à fleur de marche, et les orifices rebouchés à l'aide d'un mortier ou d'une résine pigmentée de la couleur exacte de la pierre, effaçant toute trace."
+          </p>
+        </div>
+      </div>
+
+      <!-- Form side -->
+      <div>
+        <h3 style="font-size:20px; color:var(--primary); margin-bottom:15px; text-align:center;">Estimer mon projet</h3>
+        <StepsForm />
+      </div>
+
+    </div>
+  </section>
+</Layout>

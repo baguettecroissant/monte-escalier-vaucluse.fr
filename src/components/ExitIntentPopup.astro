@@ -1,0 +1,201 @@
+---
+---
+<div id="exit-intent-popup" class="exit-popup-overlay" aria-hidden="true" role="dialog">
+  <div class="exit-popup-content">
+    <button id="close-exit-popup" class="exit-popup-close" aria-label="Fermer la fenêtre">&times;</button>
+    <div class="exit-popup-header">
+      <span class="exit-popup-badge">💡 Opportunité Vaucluse 84</span>
+      <h2>Seniors de Vaucluse : Ne passez pas à côté de vos aides 2026 !</h2>
+    </div>
+    <div class="exit-popup-body">
+      <p>Le <strong>Département de Vaucluse</strong> et l'Anah financent jusqu'à <strong>70% du montant</strong> de l'installation de votre monte-escalier via <strong>MaPrimeAdapt'</strong> et l'<strong>APA 84</strong>.</p>
+      
+      <div class="exit-popup-stats">
+        <div class="stat-box">
+          <span class="stat-number">25%</span>
+          <span class="stat-label">Crédit d'impôt direct</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">GIR 1-4</span>
+          <span class="stat-label">Éligibilité APA 84</span>
+        </div>
+      </div>
+      
+      <p class="exit-popup-note">Simple, gratuit et sans engagement : faites estimer vos subventions en 2 minutes.</p>
+    </div>
+    <div class="exit-popup-footer">
+      <a href="/devis/" class="btn-primary exit-popup-btn">Estimer mes aides &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .exit-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(46, 16, 101, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .exit-popup-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .exit-popup-content {
+    background: white;
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-md);
+    width: 90%;
+    max-width: 550px;
+    padding: 40px;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+  }
+  
+  .exit-popup-overlay.show .exit-popup-content {
+    transform: scale(1);
+  }
+  
+  .exit-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition);
+  }
+  
+  .exit-popup-close:hover {
+    color: var(--secondary);
+  }
+  
+  .exit-popup-badge {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+  
+  .exit-popup-header h2 {
+    font-size: 24px;
+    color: var(--primary);
+    line-height: 1.3;
+    margin-bottom: 15px;
+  }
+  
+  .exit-popup-body p {
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  
+  .exit-popup-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .stat-box {
+    background: var(--primary-light);
+    border: 1px dashed var(--primary);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  
+  .stat-number {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary);
+  }
+  
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: bold;
+  }
+  
+  .exit-popup-note {
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+    font-style: italic;
+  }
+  
+  .exit-popup-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('exit-intent-popup');
+    const closeBtn = document.getElementById('close-exit-popup');
+    const storageKey = 'monte_escalier_exit_popup_shown_84';
+    
+    if (!popup) return;
+    
+    // Check if already shown
+    const isShown = localStorage.getItem(storageKey);
+    if (isShown) return;
+    
+    const showPopup = () => {
+      popup.classList.add('show');
+      popup.setAttribute('aria-hidden', 'false');
+      localStorage.setItem(storageKey, 'true');
+    };
+    
+    // Desktop: exit intent on mouseleave top of window
+    document.addEventListener('mouseleave', (e) => {
+      if (e.clientY < 50) {
+        showPopup();
+      }
+    });
+    
+    // Mobile: timeout of 20 seconds as fallback
+    setTimeout(() => {
+      if (!popup.classList.contains('show')) {
+        showPopup();
+      }
+    }, 20000);
+    
+    // Close events
+    closeBtn.addEventListener('click', () => {
+      popup.classList.remove('show');
+      popup.setAttribute('aria-hidden', 'true');
+    });
+    
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        popup.classList.remove('show');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+    });
+  });
+</script>

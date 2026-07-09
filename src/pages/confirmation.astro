@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+// We fetch name and city query params on client side or via Astro.url (for static routes, URL params are resolved client-side since this is built statically)
+---
+<Layout title="Demande Validée — Monte-Escalier Vaucluse" description="Merci pour votre demande d'estimation de subventions. Votre dossier est en cours de traitement par nos équipes locales.">
+  <Breadcrumb items={[{ label: "Confirmation de demande" }]} />
+
+  <section style="padding: 80px 0; background: white; text-align: center;">
+    <div class="container" style="max-width: 600px;">
+      <div style="font-size: 60px; margin-bottom: 25px;">💜</div>
+      <span class="badge-pill" style="margin-bottom: 15px; background:#ECFDF5; border-color:#6EE7B7; color:#065F46;">
+        Demande reçue avec succès
+      </span>
+      
+      <h1 style="font-size: 32px; color: var(--primary); margin-bottom: 20px;">
+        Merci <span id="client-name"></span> !
+      </h1>
+      
+      <p style="font-size: 18px; color: var(--text); line-height: 1.6; margin-bottom: 30px;">
+        Votre dossier d'estimation de subventions pour la commune de <strong id="client-city">votre ville</strong> est bien enregistré.
+      </p>
+
+      <div style="background: var(--bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; text-align: left; margin-bottom: 40px; display:flex; flex-direction:column; gap:15px;">
+        <h3 style="font-size: 18px; color: var(--primary);">Prochaines étapes :</h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px;">
+          <li style="display: flex; gap: 10px; align-items: flex-start;">
+            <span>1️⃣</span>
+            <div>
+              <strong>Appel de validation (sous 24h)</strong> : Un conseiller expert local va vous appeler pour faire le point sur la configuration technique de votre escalier.
+            </div>
+          </li>
+          <li style="display: flex; gap: 10px; align-items: flex-start;">
+            <span>2️⃣</span>
+            <div>
+              <strong>Relevé technique 3D gratuit</strong> : Si éligible, un technicien RGE se déplacera gratuitement pour prendre les cotes au millimètre.
+            </div>
+          </li>
+          <li style="display: flex; gap: 10px; align-items: flex-start;">
+            <span>3️⃣</span>
+            <div>
+              <strong>Comparatif des devis</strong> : Vous recevrez jusqu'à 3 offres comparatives avec calcul du reste à charge net après aides.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <a href="/" class="btn-primary">Retour à l'accueil</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client-side parsing of query parameters -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const name = urlParams.get('name');
+      const city = urlParams.get('city');
+
+      const nameSpan = document.getElementById('client-name');
+      const cityStrong = document.getElementById('client-city');
+
+      if (nameSpan && name) {
+        nameSpan.textContent = name;
+      }
+      if (cityStrong && city) {
+        cityStrong.textContent = city;
+      }
+    });
+  </script>
+</Layout>

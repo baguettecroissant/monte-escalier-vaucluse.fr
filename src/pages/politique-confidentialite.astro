@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+
+<Layout title="Politique de Confidentialité — Monte-Escalier Vaucluse" description="Découvrez comment nous protégeons vos données personnelles dans le cadre du traitement de vos demandes d'estimation.">
+  <Breadcrumb items={[{ label: "Politique de confidentialité" }]} />
+
+  <section style="padding: 60px 0; background: white;">
+    <div class="container" style="max-width: 800px; font-size:15px; line-height:1.6; color:var(--text-muted);">
+      <h1 style="font-size:28px; color:var(--text); margin-bottom:20px;">Politique de Confidentialité</h1>
+      
+      <p style="margin-bottom:15px;">
+        Chez <strong>monte-escalier-vaucluse.fr</strong>, nous accordons une importance primordiale à la protection et au respect de la vie privée de nos utilisateurs. Cette politique détaille les données collectées et notre politique de sécurité.
+      </p>
+
+      <h3 style="color:var(--text); margin:20px 0 10px;">1. Données collectées</h3>
+      <p style="margin-bottom:15px;">
+        Dans le cadre de l'utilisation de nos configurateurs de devis en ligne, les données personnelles suivantes sont demandées : civilité, prénom, nom, e-mail, téléphone, code postal, ville, type d'escalier, et urgence de l'installation.
+      </p>
+
+      <h3 style="color:var(--text); margin:20px 0 10px;">2. Finalité de la collecte</h3>
+      <p style="margin-bottom:15px;">
+        Ces données sont utilisées uniquement pour :
+        - Établir l'éligibilité technique de votre habitation aux subventions nationales ou régionales.
+        - Transmettre votre demande de contact aux artisans certifiés RGE habilités à vous proposer des offres.
+        - Enregistrer et suivre le lead sur notre plateforme technique Supabase.
+      </p>
+
+      <h3 style="color:var(--text); margin:20px 0 10px;">3. Durée de conservation</h3>
+      <p style="margin-bottom:15px;">
+        Vos données de lead sont conservées pendant une durée maximale de 3 ans après la dernière interaction commerciale, après quoi elles sont anonymisées ou détruites de nos serveurs.
+      </p>
+
+      <h3 style="color:var(--text); margin:20px 0 10px;">4. Vos droits (RGPD)</h3>
+      <p style="margin-bottom:15px;">
+        Conformément à la réglementation européenne sur les données, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Vous pouvez exercer ce droit en nous envoyant votre demande par écrit ou en vous inscrivant sur la liste nationale d'opposition au démarchage Bloctel.
+      </p>
+    </div>
+  </section>
+</Layout>
