@@ -178,6 +178,8 @@ const zipToCityMap = communes.reduce((acc, c) => {
         🔒 <strong>Confidentialité garantie</strong> : Conformément aux lois RGPD, vos coordonnées sont transmises uniquement aux artisans locaux certifiés RGE du Vaucluse affectés à votre étude. Aucun spam. Vous pouvez vous inscrire sur Bloctel.
       </div>
 
+      <div id="form-errors" class="zip-validation-alert error" style="display:none; margin: 15px 0;"></div>
+
       <div class="form-actions-row">
         <button type="button" class="btn-secondary prev-step-trigger">&larr; Retour</button>
         <button type="submit" class="btn-primary" id="final-submit-btn">Obtenir mes Devis Gratuits &rarr;</button>
@@ -303,16 +305,85 @@ const zipToCityMap = communes.reduce((acc, c) => {
       });
     }
 
-    // Form Submission with validation
-    form.addEventListener('submit', (e) => {
-      const phone = document.getElementById('phone_field');
+    // Form Submission Override
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const phone = document.getElementById('phone_field') as HTMLInputElement;
       const phoneError = document.getElementById('phone-error-alert');
-      if (phone && phoneError) {
-        phoneError.style.display = 'none';
-        if (!/^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/.test(phone.value.replace(/\s+/g, ''))) {
-          e.preventDefault();
-          phoneError.style.display = 'block';
-          phone.focus();
+      const formErrors = document.getElementById('form-errors');
+      const submitBtn = document.getElementById('final-submit-btn') as HTMLButtonElement;
+
+      if (phoneError) phoneError.style.display = 'none';
+      if (formErrors) {
+        formErrors.style.display = 'none';
+        formErrors.innerHTML = '';
+      }
+
+      const cleanPhone = (phone ? phone.value : '').replace(/\s+/g, '');
+      if (!/^(0|\+33)[1-9][0-9]{8}$/.test(cleanPhone)) {
+        if (phoneError) phoneError.style.display = 'block';
+        if (phone) phone.focus();
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Envoi en cours...';
+      }
+
+      const formData = new FormData(form as HTMLFormElement);
+      const stairType = formData.get('stair_type') || 'droit';
+      const timeline = formData.get('timeline') || 'urgent';
+      const zipcode = formData.get('zipcode') || '';
+      const city = formData.get('city') || '';
+      const civility = formData.get('civility') || 'Mme';
+      const firstname = formData.get('firstname') || '';
+      const lastname = formData.get('lastname') || '';
+      const email = formData.get('email') || '';
+
+      const payload = {
+        nom: (lastname as string || '').trim(),
+        prenom: (firstname as string || '').trim(),
+        email: (email as string || '').trim(),
+        tel: cleanPhone,
+        adresse: 'Adresse non renseignée',
+        cp: (zipcode as string || '').trim(),
+        ville: (city as string || '').trim(),
+        catId: 144,
+        typeBien: '1',
+        situation: '1',
+        chauffageActuel: `Monte-escalier: ${stairType}, Civilité: ${civility}, Délai: ${timeline}`,
+        delais: timeline === 'urgent' ? '1' : timeline === '1_to_3_months' ? '2' : '4',
+        pageUrl: window.location.href
+      };
+
+      try {
+        const response = await fetch('/api/lead', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.errors?.join('<br/>') || 'Une erreur est survenue lors de la soumission de votre projet.');
+        }
+
+        window.location.href = `/confirmation?devis_id=${data.devis_id}&devis_hash=${data.devis_hash}&prenom=${encodeURIComponent(payload.prenom)}&ville=${encodeURIComponent(payload.ville)}&cat=${payload.catId}`;
+
+      } catch (err: any) {
+        console.error(err);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Obtenir mes Devis Gratuits →';
+        }
+        if (formErrors) {
+          formErrors.style.display = 'block';
+          formErrors.innerHTML = err.message || 'Une erreur est survenue lors de l\'envoi du devis. Veuillez réessayer.';
         }
       }
     });
