@@ -4,7 +4,7 @@ import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://monte-escalier-vaucluse.fr',
+  site: 'https://monte-escalier84.fr',
   output: 'static',
   adapter: cloudflare({
     imageService: 'passthrough',
